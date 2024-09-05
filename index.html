@@ -127,12 +127,23 @@
         let alarmSound = document.getElementById("alarmSound"); // Referencia al sonido
         let colorPicker = document.getElementById("colorPicker");
 
-        // Cargar el color guardado desde LocalStorage al cargar la página
+        // Función para obtener el valor de un parámetro de la URL
+        function getUrlParameter(name) {
+            let url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            let results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Cargar el color desde la URL al cargar la página
         window.onload = function() {
-            let savedColor = localStorage.getItem('pomodoroColor');
-            if (savedColor) {
-                applyColor(savedColor);
-                colorPicker.value = savedColor; // Establece el color del input
+            let urlColor = getUrlParameter('color');
+            if (urlColor) {
+                applyColor(urlColor);
+                colorPicker.value = urlColor; // Establece el color del input
             }
         };
 
@@ -181,8 +192,9 @@
             let selectedColor = colorPicker.value;
             applyColor(selectedColor);
 
-            // Guardar el color seleccionado en LocalStorage
-            localStorage.setItem('pomodoroColor', selectedColor);
+            // Actualizar la URL con el nuevo color
+            let newUrl = updateUrlParameter(window.location.href, 'color', selectedColor);
+            window.history.pushState({ path: newUrl }, '', newUrl);
         });
 
         // Función para aplicar el color al temporizador y botones
@@ -200,6 +212,26 @@
             document.querySelectorAll('.control-button').forEach(button => {
                 button.style.backgroundColor = color;
             });
+        }
+
+        // Función para actualizar un parámetro en la URL
+        function updateUrlParameter(url, param, paramVal) {
+            let newAdditionalURL = '';
+            let tempArray = url.split('?');
+            let baseURL = tempArray[0];
+            let additionalURL = tempArray[1];
+            let temp = '';
+            if (additionalURL) {
+                tempArray = additionalURL.split('&');
+                for (let i = 0; i < tempArray.length; i++) {
+                    if (tempArray[i].split('=')[0] !== param) {
+                        newAdditionalURL += temp + tempArray[i];
+                        temp = '&';
+                    }
+                }
+            }
+            let rows_txt = temp + param + '=' + encodeURIComponent(paramVal);
+            return baseURL + '?' + newAdditionalURL + rows_txt;
         }
     </script>
 
