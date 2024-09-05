@@ -74,7 +74,7 @@
         }
 
         .control-button:hover {
-            background-color: #555555; /* Gris un poco m·s claro */
+            background-color: #555555; /* Gris un poco m√°s claro */
         }
     </style>
 </head>
@@ -94,7 +94,7 @@
     </div>
 
     <!-- Elemento de audio para reproducir el sonido -->
-    <audio id="alarmSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
+<audio id="alarmSound" src="alarm-clock-beep-105903.mp3" preload="auto"></audio>
 
     <script>
         let timerElement = document.getElementById("timer");
@@ -112,7 +112,7 @@
             if (timeLeft < 0) {
                 clearInterval(timerInterval);
                 alarmSound.play(); // Reproducir el sonido cuando el tiempo llega a 0
-                alert("°Tiempo terminado!");
+                alert("¬°Tiempo terminado!");
             }
         }
 
