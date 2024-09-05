@@ -124,7 +124,7 @@
         function resetTimer() {
             clearInterval(timerInterval);
             if (mode === 'pomodoro') timeLeft = 1500; // 25 min
-            else if (mode === 'shortBreak') timeLeft = 300; // 5 min
+            else if (mode === 'shortBreak') timeLeft = 10; // 5 min
             else if (mode === 'longBreak') timeLeft = 900; // 15 min
             updateTimer();
         }
