@@ -82,9 +82,14 @@
             margin-top: 20px;
         }
 
-        .color-selector label {
-            font-weight: bold;
-            margin-right: 10px;
+        .color-icon {
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        /* Ocultar el input de color */
+        #colorPicker {
+            display: none;
         }
     </style>
 </head>
@@ -104,7 +109,7 @@
 
         <!-- Selector de color -->
         <div class="color-selector">
-            <label for="colorPicker">Selecciona color del Pomodoro:</label>
+            <span class="color-icon" onclick="openColorPicker()">🎨</span>
             <input type="color" id="colorPicker" value="#333333">
         </div>
     </div>
@@ -153,6 +158,11 @@
                 button.classList.remove('active');
             });
             document.querySelector(`.mode-button[onclick="setMode('${newMode}')"]`).classList.add('active');
+        }
+
+        // Función para abrir el selector de color al hacer clic en el icono
+        function openColorPicker() {
+            colorPicker.click(); // Activa el input de color oculto
         }
 
         // Cambiar el color del temporizador en función del color seleccionado
