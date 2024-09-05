@@ -127,6 +127,15 @@
         let alarmSound = document.getElementById("alarmSound"); // Referencia al sonido
         let colorPicker = document.getElementById("colorPicker");
 
+        // Cargar el color guardado desde LocalStorage al cargar la página
+        window.onload = function() {
+            let savedColor = localStorage.getItem('pomodoroColor');
+            if (savedColor) {
+                applyColor(savedColor);
+                colorPicker.value = savedColor; // Establece el color del input
+            }
+        };
+
         function updateTimer() {
             let minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
@@ -149,7 +158,7 @@
             clearInterval(timerInterval);
             if (mode === 'pomodoro') timeLeft = 1500; // 25 min
             else if (mode === 'shortBreak') timeLeft = 300; // 5 min
-            else if ( mode === 'longBreak') timeLeft = 900; // 15 min
+            else if (mode === 'longBreak') timeLeft = 900; // 15 min
             updateTimer();
         }
 
@@ -170,20 +179,28 @@
         // Cambiar el color del temporizador en función del color seleccionado
         colorPicker.addEventListener("input", function() {
             let selectedColor = colorPicker.value;
-            document.querySelector('.timer').style.color = selectedColor;
+            applyColor(selectedColor);
+
+            // Guardar el color seleccionado en LocalStorage
+            localStorage.setItem('pomodoroColor', selectedColor);
+        });
+
+        // Función para aplicar el color al temporizador y botones
+        function applyColor(color) {
+            document.querySelector('.timer').style.color = color;
             document.querySelectorAll('.mode-button').forEach(button => {
-                button.style.borderColor = selectedColor;
+                button.style.borderColor = color;
                 if (button.classList.contains('active')) {
-                    button.style.backgroundColor = selectedColor;
+                    button.style.backgroundColor = color;
                     button.style.color = '#ffffff';
                 } else {
-                    button.style.color = selectedColor;
+                    button.style.color = color;
                 }
             });
             document.querySelectorAll('.control-button').forEach(button => {
-                button.style.backgroundColor = selectedColor;
+                button.style.backgroundColor = color;
             });
-        });
+        }
     </script>
 
 </body>
