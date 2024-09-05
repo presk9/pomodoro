@@ -76,6 +76,16 @@
         .control-button:hover {
             background-color: #555555; /* Gris un poco más claro */
         }
+
+        /* Estilo del selector de color */
+        .color-selector {
+            margin-top: 20px;
+        }
+
+        .color-selector label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -91,10 +101,16 @@
             <button class="control-button" onclick="startTimer()">Iniciar</button>
             <button class="control-button" onclick="resetTimer()">Restablecer</button>
         </div>
+
+        <!-- Selector de color -->
+        <div class="color-selector">
+            <label for="colorPicker">Selecciona color del Pomodoro:</label>
+            <input type="color" id="colorPicker" value="#333333">
+        </div>
     </div>
 
     <!-- Elemento de audio para reproducir el sonido -->
-<audio id="alarmSound" src="alarm-clock-beep-105903.mp3" preload="auto"></audio>
+    <audio id="alarmSound" src="alarm-clock-beep-105903.mp3" preload="auto"></audio>
 
     <script>
         let timerElement = document.getElementById("timer");
@@ -102,6 +118,7 @@
         let timerInterval;
         let mode = 'pomodoro'; // Modo inicial
         let alarmSound = document.getElementById("alarmSound"); // Referencia al sonido
+        let colorPicker = document.getElementById("colorPicker");
 
         function updateTimer() {
             let minutes = Math.floor(timeLeft / 60);
@@ -124,7 +141,7 @@
         function resetTimer() {
             clearInterval(timerInterval);
             if (mode === 'pomodoro') timeLeft = 1500; // 25 min
-            else if (mode === 'shortBreak') timeLeft = 10; // 5 min
+            else if (mode === 'shortBreak') timeLeft = 300; // 5 min
             else if (mode === 'longBreak') timeLeft = 900; // 15 min
             updateTimer();
         }
@@ -137,6 +154,24 @@
             });
             document.querySelector(`.mode-button[onclick="setMode('${newMode}')"]`).classList.add('active');
         }
+
+        // Cambiar el color del temporizador en función del color seleccionado
+        colorPicker.addEventListener("input", function() {
+            let selectedColor = colorPicker.value;
+            document.querySelector('.timer').style.color = selectedColor;
+            document.querySelectorAll('.mode-button').forEach(button => {
+                button.style.borderColor = selectedColor;
+                if (button.classList.contains('active')) {
+                    button.style.backgroundColor = selectedColor;
+                    button.style.color = '#ffffff';
+                } else {
+                    button.style.color = selectedColor;
+                }
+            });
+            document.querySelectorAll('.control-button').forEach(button => {
+                button.style.backgroundColor = selectedColor;
+            });
+        });
     </script>
 
 </body>
