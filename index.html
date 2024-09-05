@@ -83,8 +83,9 @@
         }
 
         .color-icon {
-            font-size: 30px;
             cursor: pointer;
+            width: 40px;
+            height: 40px;
         }
 
         /* Ocultar el input de color */
@@ -109,7 +110,8 @@
 
         <!-- Selector de color -->
         <div class="color-selector">
-            <span class="color-icon" onclick="openColorPicker()">🎨</span>
+            <!-- Imagen que actúa como icono para abrir el selector de color -->
+            <img src="color_picker_line_icon_235667.png" alt="Selector de color" class="color-icon" onclick="openColorPicker()">
             <input type="color" id="colorPicker" value="#333333">
         </div>
     </div>
@@ -147,7 +149,7 @@
             clearInterval(timerInterval);
             if (mode === 'pomodoro') timeLeft = 1500; // 25 min
             else if (mode === 'shortBreak') timeLeft = 300; // 5 min
-            else if (mode === 'longBreak') timeLeft = 900; // 15 min
+            else if ( mode === 'longBreak') timeLeft = 900; // 15 min
             updateTimer();
         }
 
@@ -160,7 +162,7 @@
             document.querySelector(`.mode-button[onclick="setMode('${newMode}')"]`).classList.add('active');
         }
 
-        // Función para abrir el selector de color al hacer clic en el icono
+        // Función para abrir el selector de color al hacer clic en la imagen
         function openColorPicker() {
             colorPicker.click(); // Activa el input de color oculto
         }
